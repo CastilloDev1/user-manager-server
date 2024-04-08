@@ -1,4 +1,4 @@
-import { IsString } from "class-validator"
+import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class CreateUserDto {
     
@@ -14,13 +14,14 @@ export class CreateUserDto {
     @IsString()
     gender: string;
     
-    @IsString()
-    status: string;
+    @IsBoolean()
+    status: boolean;
     
     @IsString()
+    @IsOptional()
     birthdate: string;
     
-    @IsString()
-    phone: string;
+    @IsNumber()
+    phone: number;
 
 }

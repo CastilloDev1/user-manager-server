@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { LoginDto } from './dto/login.dto';
+import { LoginResponse } from './interfaces/login-response';
 
 @Injectable()
 export class AuthService {
@@ -22,12 +23,12 @@ export class AuthService {
     return user;
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const newUser = new this.userModel( createUserDto );
       return await newUser.save();
     } catch (error) {
-      throw new InternalServerErrorException('something happen!');
+      throw new InternalServerErrorException(error);
     }
   }
 

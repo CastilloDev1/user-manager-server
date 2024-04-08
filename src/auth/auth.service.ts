@@ -1,9 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,15 @@ export class AuthService {
   constructor(
     @InjectModel( User.name ) private userModel: Model<User>
   ){}
+
+  async login(loginDto: LoginDto) {
+    const { name, lastname, phone } = loginDto;
+    const user = await this.userModel.findOne({ name, lastname, phone });
+    if (!user)
+      throw new UnauthorizedException('Not valid credentials');
+
+    return user;
+  }
 
   async create(createUserDto: CreateUserDto) {
     try {

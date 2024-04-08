@@ -19,7 +19,7 @@ export class User {
     status: boolean
     
     @Prop({ required: true })
-    birtdate: string
+    birthdate: string
     
     @Prop({ minlength: 7, required: true })
     phone: string
